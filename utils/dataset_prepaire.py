@@ -1,4 +1,3 @@
-# 又是码代码的一天呢：2025/5/13
 # 数据集划分。传入原始images和labels路径，得到划分好的数据集
 import os
 import json
