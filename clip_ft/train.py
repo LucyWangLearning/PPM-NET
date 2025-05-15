@@ -6,7 +6,7 @@ import os
 import json
 import matplotlib.pyplot as plt  # ✅ 新增
 from torch.cuda.amp import autocast
-from clip_ft_model import load_clip_model
+from clip_ft_model import load_clip_model, setup_trainable_params
 
 from sklearn.metrics import accuracy_score
 from PIL import Image
@@ -69,13 +69,13 @@ def evaluate_accuracy(model, preprocess, val_data, dir_features, pos_features, d
     return dir_acc, pos_acc
 
 
-for exp_name in ["5shot", "10shot"]:  #,"stratified"
+for exp_name in ["5shot", "10shot", "stratified"]:  #,"stratified""5shot", "10shot"
     print(f"\n========== 正在运行实验：{exp_name} ==========\n")
 
     # 路径变量
     train_json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\train_{exp_name}.json'
     val_json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\val_{exp_name}.json'
-    keyword = f"{exp_name}_3adapter_100e"
+    keyword = f"{exp_name}_3adapterMLPfus_100e"
 
     # -------------------- 配置 --------------------
 
@@ -113,27 +113,7 @@ for exp_name in ["5shot", "10shot"]:  #,"stratified"
         pos_features = model.encode_text(pos_texts)
         pos_features /= pos_features.norm(dim=-1, keepdim=True)
 
-    # 指定 adapter 参数可训练
-    for name, param in model.named_parameters():
-        param.requires_grad = False
-        if "adapter" in name:
-            param.requires_grad = True
-
-    # 可选：如果你希望 logit_scale 也参与训练
-    model.logit_scale.requires_grad = True
-
-    # 统计参数数量
-    total_params = sum(p.numel() for p in model.parameters())
-    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-    # 输出信息
-    print(f"Total Parameters: {total_params:,}")
-    print(f"Trainable Parameters: {trainable_params:,}")
-    print(f"Trainable Ratio: {100 * trainable_params / total_params:.4f}%")
-    print("\nTrainable parameter names:")
-    for name, param in model.named_parameters():
-        if param.requires_grad:
-            print(f" - {name}: {param.numel()} params")
+    setup_trainable_params(model)
     model = model.to("cuda")
 
     # -------------------- 自定义 Dataset --------------------
