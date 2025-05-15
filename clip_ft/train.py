@@ -75,7 +75,7 @@ for exp_name in ["5shot", "10shot", "stratified"]:  #,"stratified""5shot", "10sh
     # 路径变量
     train_json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\train_{exp_name}.json'
     val_json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\val_{exp_name}.json'
-    keyword = f"{exp_name}_3adapterMLPfus_100e"
+    keyword = f"{exp_name}_1(21)adapterMLPfus_100e"
 
     # -------------------- 配置 --------------------
 

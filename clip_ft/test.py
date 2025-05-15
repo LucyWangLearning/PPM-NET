@@ -34,19 +34,19 @@ for exp_name in ['train', "val", 'test']: #, "stratified"   "5shot", "10shot",
     print(f"\n========== 正在运行实验：{exp_name} ==========\n")
     import sys
     # 指定输出文件路径
-    log_file = f"eval_output_{exp_name}.txt"
-    confusion_mat_pos_path = f"confusion_matrix_pos_{exp_name}.png"
-    confusion_mat_dir_path = f"confusion_matrix_dir_{exp_name}.png"
+    log_file = f"eval_output_{exp_name}_10shot.txt"
+    confusion_mat_pos_path = f"confusion_matrix_pos_{exp_name}_10shot.png"
+    confusion_mat_dir_path = f"confusion_matrix_dir_{exp_name}_10shot.png"
     # 保存旧的 stdout
     original_stdout = sys.stdout
     # ========== 配置 ==========
     device = "cuda" if torch.cuda.is_available() else "cpu"
     image_root = r'D:\a_repo_pile\stage2dataset\dataset1\5228images'
     # image_root = r'D:\datasetTotal\CLIPstage2\dataset2\single_815-19classified'
-    json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\{exp_name}_stratified.json'
+    json_path = fr'D:\a_repo_pile\PPM-NET\split_dataset\{exp_name}_10shot.json'
     # json_path = r'D:\PROGRAM\lite_ICON\pythonProject1\multitask_clip\split_dataset\dataset2_total.json'
     # pretrained = fr"D:\PROGRAM\lite_ICON\pythonProject1\multitask_clip\best_weight_loss3_e50_{exp_name}.pth"
-    pretrained = fr"D:\a_repo_pile\PPM-NET\clip_ft\best_weight_first_test.pth"
+    pretrained = fr"D:\a_repo_pile\PPM-NET\clip_ft\best_weight_10shot_3adapter_100e.pth"
 
     # 标签设定
     direction_labels = ["Left-pointing template", "Right-pointing template"]

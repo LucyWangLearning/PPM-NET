@@ -92,7 +92,7 @@ class CLIPWithAdapters(nn.Module):
 
 def load_clip_model(model_name, pretrained, device):
     clip_base, _, preprocess = create_model_and_transforms(model_name, pretrained='laion2b_s32b_b82k', device=device)
-    model = CLIPWithAdapters(clip_base, target_layers=[12, 18, 21], adapter_bottleneck_dim=768).to(device)
+    model = CLIPWithAdapters(clip_base, target_layers=[21], adapter_bottleneck_dim=768).to(device)
 
     # 加载模型
     if pretrained is not None:
